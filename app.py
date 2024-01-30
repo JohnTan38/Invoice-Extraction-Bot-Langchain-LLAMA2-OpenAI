@@ -17,7 +17,7 @@ def main():
     submit=st.button("Extract Data")
 
     if submit:
-        with st.spinner('Wait for it...'):
+        with st.spinner('Processing...'):
             df=create_docs(pdf)
             st.write(df.head())
 
