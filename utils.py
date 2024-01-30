@@ -26,25 +26,25 @@ def extracted_data(pages_data):
         """
     prompt_template = PromptTemplate(input_variables=["pages"], template=template)
 
-    llm = OpenAI(temperature=.7)
-    full_response=llm(prompt_template.format(pages=pages_data))
+    #llm = OpenAI(temperature=.7)
+    #full_response=llm(prompt_template.format(pages=pages_data))
     
 
     #The below code will be used when we want to use LLAMA 2 model,  we will use Replicate for hosting our model...
     
-    #output = replicate.run('replicate/llama-2-70b-chat:2c1608e18606fad2812020dc541930f2d0495ce32eee50074220b87300bc16e1', 
-                           #input={"prompt":prompt_template.format(pages=pages_data) ,
-                                  #"temperature":0.1, "top_p":0.9, "max_length":512, "repetition_penalty":1})
+    output = replicate.run('replicate/llama-2-70b-chat:2c1608e18606fad2812020dc541930f2d0495ce32eee50074220b87300bc16e1', 
+                           input={"prompt":prompt_template.format(pages=pages_data) ,
+                                  "temperature":0.1, "top_p":0.9, "max_length":512, "repetition_penalty":1})
     
-    #full_response = ''
-    #for item in output:
-        #full_response += item
+    full_response = ''
+    for item in output:
+        full_response += item
     
 
-    #print(full_response)
+    print(full_response)
     return full_response
 
-
+list_df = []
 # iterate over files in
 # that user uploaded PDF files, one by one
 def create_docs(user_pdf_list):
@@ -83,10 +83,12 @@ def create_docs(user_pdf_list):
         else:
             print("No match found.")
 
-        
+        df_invoice=pd.DataFrame(data_dict, index=['i'],)
+        list_df.append(df_invoice)
         #df=df.append([data_dict], ignore_index=True)
-        print("********************DONE***************")
+        print("*************DONE***********")
         #df=df.append(save_to_dataframe(llm_extracted_data), ignore_index=True)
 
+    df = pd.concat(list_df, axis=0)
     df.head()
     return df
