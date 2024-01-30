@@ -84,7 +84,7 @@ def create_docs(user_pdf_list):
             print("No match found.")
 
         
-        df=df.append([data_dict], ignore_index=True)
+        #df=df.append([data_dict], ignore_index=True)
         print("********************DONE***************")
         #df=df.append(save_to_dataframe(llm_extracted_data), ignore_index=True)
 
